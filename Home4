@@ -1,0 +1,96 @@
+public class Order
+{
+    public string ProductName { get; set; }
+    public int Quantity { get; set; }
+    public double Price { get; set; }
+}
+
+public class PriceCalculator
+{
+    public double Calculate(Order order)
+    {
+        return order.Quantity * order.Price * 0.9;
+    }
+}
+
+public abstract class Employee
+{
+    public string Name { get; set; }
+    public double BaseSalary { get; set; }
+    public abstract double GetSalary();
+}
+
+public class PermanentEmployee : Employee
+{
+    public override double GetSalary() => BaseSalary * 1.2;
+}
+
+public class ContractEmployee : Employee
+{
+    public override double GetSalary() => BaseSalary * 1.1;
+}
+
+public class Intern : Employee
+{
+    public override double GetSalary() => BaseSalary * 0.8;
+}
+
+public interface IPrinter
+{
+    void Print(string content);
+}
+
+public interface IScanner
+{
+    void Scan(string content);
+}
+
+public interface IFax
+{
+    void Fax(string content);
+}
+
+public class AllInOnePrinter : IPrinter, IScanner, IFax
+{
+    public void Print(string content) => Console.WriteLine($"Printing: {content}");
+    public void Scan(string content) => Console.WriteLine($"Scanning: {content}");
+    public void Fax(string content) => Console.WriteLine($"Faxing: {content}");
+}
+
+public class BasicPrinter : IPrinter
+{
+    public void Print(string content) => Console.WriteLine($"Printing: {content}");
+}
+
+public interface INotificationSender
+{
+    void Send(string message);
+}
+
+public class EmailSender : INotificationSender
+{
+    public void Send(string message) => Console.WriteLine($"Email sent: {message}");
+}
+
+public class SmsSender : INotificationSender
+{
+    public void Send(string message) => Console.WriteLine($"SMS sent: {message}");
+}
+
+public class NotificationService
+{
+    private readonly List<INotificationSender> _senders;
+
+    public NotificationService(List<INotificationSender> senders)
+    {
+        _senders = senders;
+    }
+
+    public void Notify(string message)
+    {
+        foreach (var sender in _senders)
+        {
+            sender.Send(message);
+        }
+    }
+}
